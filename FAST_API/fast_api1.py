@@ -12,3 +12,10 @@
 # Pydantic -->  checks if the data coming into your API is correct and in the right format
 
 # philosophy of FastAPI --> fast to run and fast to code || web server for tracking incoming HTTP request of the client
+# server gateway interface --> establishes 2 way communication between api and web server
+# FastAPI has asynchronous server gateway interface and also supports async and await features
+
+# why is it fast 
+# automatic input validation
+# auto generated interactive documentation
+# seamless integration with modern eosystem
