@@ -21,8 +21,11 @@
 # seamless integration with modern eosystem
 
 from fastapi import FastAPI
+import json
 
 app = FastAPI()
+
+
 
 # creating an endpoint
 @app.get("/")
@@ -33,3 +36,5 @@ def hello():
 @app.get("/about")
 def about():
     return {"message": 'CampusX is an educational platform'}
+
+
