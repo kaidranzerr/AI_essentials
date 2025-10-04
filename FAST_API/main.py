@@ -20,3 +20,5 @@ def about():
 def view():
     data = load_data()
     return data 
+
+# path parameters are dynamic segments of a URL path used to identify a specific resource
