@@ -3,7 +3,7 @@
 # define a pydantic model that represents the ideal schema of the data
 # instantiate the model with raw input data 
 # pass the validated model object 
-from pydantic import BaseModel , EmailStr , AnyUrl , Field
+from pydantic import BaseModel , EmailStr , AnyUrl , Field , field_validator
 from typing import List , Dict , Optional , Annotated
 
 class Patient(BaseModel):
@@ -15,6 +15,21 @@ class Patient(BaseModel):
     married: bool 
     allergies: List[str] = Field(max_length=5)
     contact_details: Dict[str]
+
+    @field_validator('email')
+    @classmethod
+    def email_validator(cls , value):
+        valid_domains = ['hdfc.com' , 'icici.com']
+        domain_name = value.split('@')[-1]
+
+        if domain_name not in valid_domains:
+            raise ValueError('Not a valid domain')
+        return value 
+    
+    @field_validator('name')
+    @classmethod
+    def transform_name(cls , value):
+        return value.upper()
 
 def insert_patient_model(patient: Patient):
     print(patient.name)
