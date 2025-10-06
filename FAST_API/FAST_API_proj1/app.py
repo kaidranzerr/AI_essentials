@@ -66,3 +66,8 @@ def health_check():
     return {
         'status': 'OK'
     }
+
+# in fast api a response model defines the structure of the data that your API endpoint will return. It helps in
+# 1. generating clean API docs
+# 2. Validating output (so API doesn't returns malinformed responses)
+# 3. Filtering unnecessary data from response
