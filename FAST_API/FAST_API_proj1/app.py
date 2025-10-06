@@ -1,4 +1,4 @@
-from fastapi import  
+from fastapi import  FastAPI
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel , Field , computed_field
 from typing import Literal , Annotated
@@ -21,6 +21,7 @@ class UserInput(BaseModel):
     occupation: Annotated[str , Field(... , description="The job of the user")]
 
 
+
     @computed_field
     @property
     def bmi(self) -> float:
@@ -35,10 +36,15 @@ class UserInput(BaseModel):
             return "medium"
         else:
             return "low"
+    @computed_field
+    @property
+    def normaluize_city(cis , v:str) -> str:
+        v = v.strip().title()
+        return v
         
-    @app.post('/predict')
-    def predict_premium(data: UserInput):
-        input_df = pd.DataFrame([{
+@app.post('/predict')
+def predict_premium(data: UserInput):
+    input_df = pd.DataFrame([{
             'bmi':data.bmi,
             'age_group':data.age_group,
             'lifestyle_risk':data.lifestyle_risk,
@@ -46,5 +52,17 @@ class UserInput(BaseModel):
             'income_lpa': data.income_lpa,
             'occupation':data.occupation
         }])
-        prediction = model.predict(input_df)[0]
-        return JSONResponse(status_code=200 , content={'prediction_category':prediction})
+    prediction = model.predict(input_df)[0]
+    return JSONResponse(status_code=200 , content={'prediction_category':prediction})
+# human readable
+@app.get('/')
+def home():
+    return {'message': 'Insurance Premium Prediction API'}
+
+
+# machine readable
+@app.get('/health')
+def health_check():
+    return {
+        'status': 'OK'
+    }
